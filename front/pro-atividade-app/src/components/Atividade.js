@@ -1,61 +1,78 @@
-import React from 'react'
-
+import React from 'react';
 export default function Atividade(props) {
-
-  function prioridadeLabel(prioridade) {
-    switch (prioridade) {
-      case 1:
-        return 'Baixa'
-      case 2:
-        return 'Normal'
-      case 3:
-        return 'Alta'
+  function prioridadeLabel(param) {
+    switch (param) {
+      case '1':
+        return 'Baixa';
+      case '2':
+        return 'Normal';
+      case '3':
+        return 'Alta';
       default:
-        return 'Não definida'
+        return 'Não definido';
     }
   }
-
-  function prioridadestyle(prioridade, icon) {
-    switch (prioridade) {
-        case 1:
-            return icon ? 'smile' : 'primary'
-        case 2:
-            return icon ? 'meh' : 'warning'
-        case 3:
-            return icon ? 'frown' : 'danger'
-        default:
-            return icon ? 'question' : 'secondary'
+  function prioridadeStyle(param, icone) {
+    switch (param) {
+      case '1':
+        return icone ? 'smile' : 'success';
+      case '2':
+        return icone ? 'meh' : 'dark';
+      case '3':
+        return icone ? 'frown' : 'warning';
+      default:
+        return 'Não definido';
     }
   }
-
-
   return (
-    <div key={props.atividade.id} className="card mb-2 shadow-sm">
-            <div className="card-body">
-                <div className="d-flex justify-content-between">                    
-                    <h5 className="card-title">
-                        <span className="badge bg-primary me-2">{props.atividade.id}</span>
-                        - {props.atividade.titulo}
-                    </h5>
-                    <h6 className="card-subtitle mb-2 text-muted">Prioridade: 
-                    <span className={"badge me-2 bg-" + prioridadestyle(props.atividade.prioridade)}>
-                        <i className={"ms-2 me-2 far fa-" + prioridadestyle(props.atividade.prioridade, true)}></i>
-                        {prioridadeLabel(props.atividade.prioridade)}
-                    </span>
-                    </h6>
-                </div>
-                <p className="card-text"> {props.atividade.descricao}</p>
-                <div className="d-flex justify-content-end">
-                <div className="btn-group">
-                    <button type="button" className="btn btn-sm btn-outline-primary me-2" onClick={() => props.editarAtividade(props.atividade.id)}>
-                    <i className="fas fa-pen me-2"></i>
-                    Editar</button>
-                    <button type="button" className="btn btn-sm btn-outline-danger me-2" onClick={() => props.deletarAtividade(props.atividade.id)}>
-                    <i className="fas fa-trash me-2"></i>
-                    Excluir</button>
-                </div>                    
-            </div>
+    <div
+      className={
+        'card mb-2 shadow-sm border-' + prioridadeStyle(props.ativ.prioridade)
+      }
+    >
+      <div className='card-body'>
+        <div className='d-flex justify-content-between'>
+          <h5 className='card-title'>
+            <span className='badge bg-secondary me-1'>
+              {props.ativ.id}
+            </span>
+            - {props.ativ.titulo}
+          </h5>
+          <h6>
+            Prioridade:
+            <span
+              className={
+                'ms-1 text-' + prioridadeStyle(props.ativ.prioridade)
+              }
+            >
+              <i
+                className={
+                  'me-1 far fa-' +
+                  prioridadeStyle(props.ativ.prioridade, true)
+                }
+              ></i>
+              {prioridadeLabel(props.ativ.prioridade)}
+            </span>
+          </h6>
         </div>
+        <p className='card-text'>{props.ativ.descricao}</p>
+        <div className='d-flex justify-content-end pt-2 m-0 border-top'>
+          <button
+            className='btn btn-sm btn-outline-primary me-2'
+            onClick={() => props.pegarAtividade(props.ativ.id)}
+          >
+            <i className='fas fa-pen me-2'></i>
+            Editar
+          </button>
+          <button
+            className='btn btn-sm btn-outline-danger'
+            onClick={() => props.deletarAtividade(props.ativ.id)}
+          >
+            <i className='fas fa-trash me-2'></i>
+            Deletar
+          </button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
