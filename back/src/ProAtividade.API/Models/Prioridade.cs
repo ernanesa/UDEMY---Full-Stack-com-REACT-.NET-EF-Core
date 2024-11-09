@@ -4,7 +4,7 @@ namespace ProAtividade.API.Models
     {
         NaoDefinida,
         Baixa,
-        Media,
+        Normal,
         Alta
     }
 }

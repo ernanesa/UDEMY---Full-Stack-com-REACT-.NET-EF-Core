@@ -1,2 +1,4 @@
 .idea
 .vscode
+back/src/ProAtividade.API/ProAtividade.db-wal
+back/src/ProAtividade.API/ProAtividade.db-shm
