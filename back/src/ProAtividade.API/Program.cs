@@ -1,43 +1,26 @@
-using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
-using ProAtividade.API.Data;
-using ProAtividade.API.Interfaces;
-using ProAtividade.API.Repositories;
-using ProAtividade.API.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Data Source=ProAtividade.db"));
-
-builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
-
-builder.Services.AddScoped<IAtividadeRepository, AtividadeRepository>();
-builder.Services.AddScoped<IAtividadeService, AtividadeService>();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+namespace ProAtividade.API
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-app.UseHttpsRedirection();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-app.Run();
